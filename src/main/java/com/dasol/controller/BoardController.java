@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/camping")
 public class BoardController {
-	
+	 
 
 }
