@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dasol.mapper.ApiMapper">
+	<insert id="insert" parameterType="map">
+		insert into camping_api values
+		<foreach item="campingApiVO" index="index" collection="list" open="" separator="," close="">
+		(#{campingApiVO._id}
+		, #{campingApiVO.name}
+		, #{campingApiVO.addrNumber}
+		, #{campingApiVO.addrRoad}
+		, #{campingApiVO.price}
+		, #{campingApiVO.classify}
+		, #{campingApiVO.facilities}
+		, #{campingApiVO.safetyfacilities}
+		, #{campingApiVO.operatingTime}
+		, #{campingApiVO.management}
+		, #{campingApiVO.telM}
+		, #{campingApiVO.telC}
+		, #{campingApiVO.architectureArea}
+		, #{campingApiVO.siteArea}
+		, #{campingApiVO.siteCnt}
+		, #{campingApiVO.parkingCnt}
+		, #{campingApiVO.longitude}
+		, #{campingApiVO.latitude}
+		, #{campingApiVO.maxpersonCnt}
+		, #{campingApiVO.etc}
+		, #{campingApiVO.updatedate})
+		</foreach>
+	</insert>
+</mapper>
