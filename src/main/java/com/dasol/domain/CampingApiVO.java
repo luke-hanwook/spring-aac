@@ -1,5 +1,7 @@
 package com.dasol.domain;
 
+import com.dasol.util.IndexCommons;
+
 public class CampingApiVO {
 	private String _id;
 	private String name;
@@ -23,6 +25,42 @@ public class CampingApiVO {
 	private String etc;
 	private String updatedate;
 
+	/**
+	 * index 생성 위한 city 코드 반환
+	 * @return
+	 */
+	public int getCityCode() {
+		int citycode = 0;
+		for (int i = 0; i < IndexCommons.CITY_ARR_KOR.length; i++) {
+			if(addrNumber != null && addrNumber.indexOf(IndexCommons.CITY_ARR_KOR[i])  == 0 || // 지번 주소가 더 많다.
+					addrRoad != null && addrRoad.indexOf(IndexCommons.CITY_ARR_KOR[i]) == 0) {
+				citycode = i + 1; // 1,2,3 ...
+			}
+		}
+		return citycode;
+	}
+	
+	/**
+	 * index 생성 위한 classify 코드 반환
+	 * @return
+	 */
+	public int getClassifyCode() {
+		int classifycode = 0;
+		
+		if(classify != null && classify.contains(IndexCommons.CAR_CAMPING_KOR)|| 
+				name != null && name.contains(IndexCommons.AUTO_CAMPING_KOR)) {
+			classifycode = IndexCommons.AUTO_CAMPING;
+		} else if (name != null && name.contains(IndexCommons.GLAMPING_KOR)) {
+			classifycode = IndexCommons.GLAMPING;
+		} else if (name != null && name.contains(IndexCommons.CARAVAN_KOR)) {
+			classifycode = IndexCommons.CARAVAN;
+		} else {
+			classifycode = IndexCommons.GENERAL_CAMPING;
+		}
+		
+		return classifycode;
+	}
+	
 	public String get_id() {
 		return _id;
 	}

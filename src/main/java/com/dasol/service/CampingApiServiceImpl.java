@@ -1,13 +1,11 @@
 package com.dasol.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dasol.domain.CampingApiVO;
 import com.dasol.persistence.CampingApiDAO;
 
 @Service
@@ -17,10 +15,9 @@ public class CampingApiServiceImpl implements CampingApiService {
 	private CampingApiDAO dao;
 
 	@Override
-	public void insertAPI(List<CampingApiVO> apiList) throws Exception {
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("list", apiList);
-		dao.insert(paramMap);
+	public void insertAPI(Map<String, List<Object>> apiMap) throws Exception {
+		dao.insertApi(apiMap.get("apiList"));
+		dao.insertIdx(apiMap.get("idxList"));
 	}
 	
 	

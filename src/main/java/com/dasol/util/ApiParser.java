@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.dasol.domain.CampingApiVO;
+import com.dasol.domain.IndexVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ApiParser {
@@ -63,7 +64,11 @@ public class ApiParser {
 		return jsonString;
 	}
 	
-	
+	/**
+	 * Json String을 가공하여 여러개로 만드는 메서드
+	 * @param jsonString
+	 * @return
+	 */
 	public static String[] campingApiParser(String jsonString) {
 		String[] jsonArr = jsonString.replace("\\\"","").replace("[", "").replace("]", "").split("},");
 		for (int i = 0; i < jsonArr.length; i++) {
@@ -74,14 +79,25 @@ public class ApiParser {
 		return jsonArr;
 	}
 	
-	public static List<CampingApiVO> getJsonList(String[] jsonArr) throws Exception {
-		List<CampingApiVO> apiList = new ArrayList<>();
+	/**
+	 * json 형태의 string을 java 객체로 만드는 메서드
+	 * @param jsonArr
+	 * @return
+	 * @throws Exception
+	 */
+	public static Map<String, List<Object>> getJsonList(String[] jsonArr) throws Exception {
+		Map<String, List<Object>> apiMap = new HashMap<>();
+		List<Object> apiList = new ArrayList<>();
+		List<Object> idxList = new ArrayList<>();
 		ObjectMapper mapper = new ObjectMapper();
 		CampingApiVO apiVo = null;
 		for (String json : jsonArr) {
 			apiVo = mapper.readValue(json, CampingApiVO.class);
+			idxList.add(new IndexVO(Integer.parseInt(apiVo.get_id()), apiVo.getCityCode(), apiVo.getClassifyCode()));
 			apiList.add(apiVo);
 		}
-		return apiList;
+		apiMap.put("apiList", apiList);
+		apiMap.put("idxList", idxList);
+		return apiMap;
 	}
 }

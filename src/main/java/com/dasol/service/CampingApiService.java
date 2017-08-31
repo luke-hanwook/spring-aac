@@ -1,9 +1,8 @@
 package com.dasol.service;
 
 import java.util.List;
-
-import com.dasol.domain.CampingApiVO;
+import java.util.Map;
 
 public interface CampingApiService {
-	public void insertAPI(List<CampingApiVO> apiList) throws Exception;
+	public void insertAPI(Map<String, List<Object>> apiMap) throws Exception;
 }

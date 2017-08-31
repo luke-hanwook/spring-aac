@@ -1,5 +1,6 @@
 package com.dasol.persistence;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -15,8 +16,13 @@ public class CampingApiDAOImpl implements CampingApiDAO {
 	private static String namespace = "com.dasol.mapper.ApiMapper";
 
 	@Override
-	public void insert(Map<String, Object> paramMap) throws Exception {
-		session.insert(namespace + ".insert", paramMap);
+	public void insertApi(List<Object> list) throws Exception {
+		session.insert(namespace + ".insertApi", list);
+	}
+	
+	@Override
+	public void insertIdx(List<Object> list) throws Exception {
+		session.insert(namespace + ".insertIdx", list);
 	}
 
 }

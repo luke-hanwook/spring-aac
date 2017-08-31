@@ -5,9 +5,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import com.dasol.domain.CampingApiVO;
+import java.util.Map;
 
 import java.io.BufferedReader;
 
@@ -49,21 +49,35 @@ public class ApiManager {
 	}
 	
 	
-	public static List<CampingApiVO> generateAPI() throws Exception {
-		List<CampingApiVO> apiList = new ArrayList<>();
+	public static Map<String, List<Object>> generateAPI() throws Exception {
+		Map<String, List<Object>> apiMap = new HashMap<>();
 		ApiParser parser = ApiParser.getInstance();
 		int idx = 0;
 		while(true) {
 			String apiQuery = runAPI(idx);
 			apiQuery = parser.parsePropertyKorToEng(apiQuery);
 			String[] jsonArr = ApiParser.campingApiParser(apiQuery);
-			apiList.addAll(ApiParser.getJsonList(jsonArr));
+			apiMap = mergeMap(apiMap, ApiParser.getJsonList(jsonArr));
 			idx+=IDX_JUMP;
 			if(jsonArr.length < 1000) {
 				break;
 			}
 		}
-		return apiList;
+		return apiMap;
+	}
+	
+	public static Map<String, List<Object>> mergeMap(
+			Map<String, List<Object>> map, Map<String, List<Object>> newMap) throws Exception {
+		for (String key : newMap.keySet()) {
+			List<Object> tempList = new ArrayList<>();
+			System.out.println("key="+key);
+			if(map.containsKey(key)) {
+				tempList = map.get(key);
+			}
+			tempList.addAll(newMap.get(key));
+			map.put(key, tempList);
+		}
+		return map;
 	}
 	
 	

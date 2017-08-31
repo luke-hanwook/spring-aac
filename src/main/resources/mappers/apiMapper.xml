@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dasol.mapper.ApiMapper">
-	<insert id="insert" parameterType="map">
+	<insert id="insertApi" parameterType="list">
 		insert into camping_api values
 		<foreach item="campingApiVO" index="index" collection="list" open="" separator="," close="">
 		(#{campingApiVO._id}
@@ -30,4 +30,14 @@
 		, #{campingApiVO.updatedate})
 		</foreach>
 	</insert>
+	
+	<insert id="insertIdx" parameterType="list">
+		insert into idx_table values
+		<foreach item="indexVO" index="index" collection="list" open="" separator="," close="">
+		(#{indexVO._id}
+		, #{indexVO.citycode}
+		, #{indexVO.classifycode})
+		</foreach>
+	</insert>
+	
 </mapper>
