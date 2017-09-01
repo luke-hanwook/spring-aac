@@ -27,16 +27,19 @@
 		, #{campingApiVO.latitude}
 		, #{campingApiVO.maxpersonCnt}
 		, #{campingApiVO.etc}
-		, #{campingApiVO.updatedate})
+		, #{campingApiVO.updatedate}
+		, #{campingApiVO.idx_id})
 		</foreach>
 	</insert>
 	
 	<insert id="insertIdx" parameterType="list">
 		insert into idx_table values
 		<foreach item="indexVO" index="index" collection="list" open="" separator="," close="">
-		(#{indexVO._id}
+		(#{indexVO.idx_id}
 		, #{indexVO.citycode}
-		, #{indexVO.classifycode})
+		, #{indexVO.classifycode}
+		, #{indexVO.cityname}
+		, #{indexVO.classifyname})
 		</foreach>
 	</insert>
 	

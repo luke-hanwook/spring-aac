@@ -15,8 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.dasol.domain.Criteria;
-import com.dasol.domain.PageData;
 import com.dasol.util.ApiManager;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,8 +36,6 @@ public class APITest {
 	
 	@Test
 	public void testApi() throws Exception {
-		Criteria cri = new Criteria();
-		PageData pagedata = new PageData(1058, cri);
-		mockMvc.perform(MockMvcRequestBuilders.get("/camping/list" + pagedata.makeQuery(1))); // get, post
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/insert")); // get, post
 	}
 }

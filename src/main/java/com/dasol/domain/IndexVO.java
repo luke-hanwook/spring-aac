@@ -1,22 +1,31 @@
 package com.dasol.domain;
 
 public class IndexVO {
-	private int _id;
+	private int idx_id;
 	private int citycode;
+	private String cityname;
 	private int classifycode;
+	private String classifyname;
 	
-	public IndexVO(int _id, int citycode, int classifycode) {
-		this._id = _id;
+	public IndexVO(int citycode, int classifycode, String cityname, String classifyname) {
+		this.citycode = citycode;
+		this.classifycode = classifycode;
+		this.cityname = cityname;
+		this.classifyname = classifyname;
+	}
+	
+	public IndexVO(int idx_id, int citycode, int classifycode) {
+		this.idx_id = idx_id;
 		this.citycode = citycode;
 		this.classifycode = classifycode;
 	}
 
-	public int get_id() {
-		return _id;
+	public int getIdx_id() {
+		return idx_id;
 	}
 
-	public void set_id(int _id) {
-		this._id = _id;
+	public void setIdx_id(int idx_id) {
+		this.idx_id = idx_id;
 	}
 
 	public int getCitycode() {
@@ -34,10 +43,34 @@ public class IndexVO {
 	public void setClassifycode(int classifycode) {
 		this.classifycode = classifycode;
 	}
+	
+	public String getCityname() {
+		return cityname;
+	}
+
+	public void setCityname(String cityname) {
+		this.cityname = cityname;
+	}
+
+	public String getClassifyname() {
+		return classifyname;
+	}
+
+	public void setClassifyname(String classifyname) {
+		this.classifyname = classifyname;
+	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) { return false; }
+		
+		return this.citycode == ((IndexVO)obj).getCitycode() 
+				&& this.classifycode == ((IndexVO)obj).getClassifycode();
+	}
+	
+	@Override
 	public String toString() {
-		return "indexVO [_id=" + _id + ", citycode=" + citycode + ", classifycode=" + classifycode + "]";
+		return "IndexVO [idx_id=" + idx_id + ", citycode=" + citycode + ", classifycode=" + classifycode + "]";
 	}
 
 }

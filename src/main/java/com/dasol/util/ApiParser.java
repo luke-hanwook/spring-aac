@@ -85,19 +85,51 @@ public class ApiParser {
 	 * @return
 	 * @throws Exception
 	 */
+	private static int idx = 0;
+	private static List<Object> idxList = new ArrayList<>();
+	private static List<Object> apiList = new ArrayList<>();
+	
 	public static Map<String, List<Object>> getJsonList(String[] jsonArr) throws Exception {
 		Map<String, List<Object>> apiMap = new HashMap<>();
-		List<Object> apiList = new ArrayList<>();
-		List<Object> idxList = new ArrayList<>();
+		Map<String, Object> duplicatedMap = new HashMap<>();
+		
 		ObjectMapper mapper = new ObjectMapper();
 		CampingApiVO apiVo = null;
+		
 		for (String json : jsonArr) {
 			apiVo = mapper.readValue(json, CampingApiVO.class);
-			idxList.add(new IndexVO(Integer.parseInt(apiVo.get_id()), apiVo.getCityCode(), apiVo.getClassifyCode()));
+			
+			IndexVO idxVo = new IndexVO(apiVo.getCityCode(), apiVo.getClassifyCode()
+					, IndexCommons.CITY_ARR_KOR[apiVo.getCityCode()]
+					, IndexCommons.CLASSIFY_ARR_KOR[apiVo.getClassifyCode()/100-1]);
+			
+			duplicatedMap = duplicatedIndex(duplicatedMap, idxList, idxVo); 
+			if(!(boolean)duplicatedMap.get("isDuplicated")) { //index 중복 아니라면
+				idxVo.setIdx_id(++idx);
+				idxList.add(idxVo);
+				apiVo.setIdx_id(idx);
+			} else { // 중복이라면
+				apiVo.setIdx_id(((IndexVO)duplicatedMap.get("duplicatedObj")).getIdx_id());
+			}
+			
 			apiList.add(apiVo);
 		}
 		apiMap.put("apiList", apiList);
 		apiMap.put("idxList", idxList);
+		
 		return apiMap;
+	}
+	
+	private static Map<String, Object> duplicatedIndex(Map<String, Object> duplicatedMap, List<Object> idxList, IndexVO idxVo) {
+		boolean isc = false;
+		for (Object obj : idxList) {
+			//중복체크
+			if(((IndexVO)obj).equals(idxVo)) {
+				isc = true;
+				duplicatedMap.put("duplicatedObj", obj);
+			}
+		}
+		duplicatedMap.put("isDuplicated", isc);
+		return duplicatedMap;
 	}
 }

@@ -18,6 +18,7 @@ public class IndexCommons {
 	public static final int JEJU = 13;
 
 	// city string
+	public static final String NOT_FOUND = "미분류";
 	public static final String SEOUL_KOR = "서울";
 	public static final String GYEONGGI_KOR = "경기";
 	public static final String INCHEON_KOR = "인천";
@@ -31,7 +32,7 @@ public class IndexCommons {
 	public static final String JEOLLA_KOR = "전라";
 	public static final String CHUNGCHEONG_KOR = "충청";
 	public static final String JEJU_KOR = "제주";
-	public static final String[] CITY_ARR_KOR = {SEOUL_KOR, GYEONGGI_KOR, INCHEON_KOR, BUSAN_KOR, DAEGU_KOR,
+	public static final String[] CITY_ARR_KOR = {NOT_FOUND, SEOUL_KOR, GYEONGGI_KOR, INCHEON_KOR, BUSAN_KOR, DAEGU_KOR,
 			DAEJEON_KOR, GWANGJU_KOR, ULSAN_KOR, GANGWON_KOR, GYEONGSANG_KOR, JEOLLA_KOR, CHUNGCHEONG_KOR, JEJU_KOR};
 	
 	// classify code
@@ -45,5 +46,8 @@ public class IndexCommons {
 	public static final String AUTO_CAMPING_KOR = "오토캠핑";
 	public static final String GLAMPING_KOR = "글램핑";
 	public static final String CARAVAN_KOR = "카라반";
+	public static final String GENERAL_CAMPING_KOR = "일반야영장";
+	public static final String[] CLASSIFY_ARR_KOR = {AUTO_CAMPING_KOR, GENERAL_CAMPING_KOR, GLAMPING_KOR, CARAVAN_KOR};
+	
 	
 }

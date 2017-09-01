@@ -24,6 +24,7 @@ public class CampingApiVO {
 	private String maxpersonCnt;
 	private String etc;
 	private String updatedate;
+	private int idx_id;
 
 	/**
 	 * index 생성 위한 city 코드 반환
@@ -31,10 +32,10 @@ public class CampingApiVO {
 	 */
 	public int getCityCode() {
 		int citycode = 0;
-		for (int i = 0; i < IndexCommons.CITY_ARR_KOR.length; i++) {
+		for (int i = 1; i < IndexCommons.CITY_ARR_KOR.length; i++) {
 			if(addrNumber != null && addrNumber.indexOf(IndexCommons.CITY_ARR_KOR[i])  == 0 || // 지번 주소가 더 많다.
 					addrRoad != null && addrRoad.indexOf(IndexCommons.CITY_ARR_KOR[i]) == 0) {
-				citycode = i + 1; // 1,2,3 ...
+				citycode = i; // 1,2,3 ...
 			}
 		}
 		return citycode;
@@ -46,7 +47,7 @@ public class CampingApiVO {
 	 */
 	public int getClassifyCode() {
 		int classifycode = 0;
-		
+		// 코드 줄이기..
 		if(classify != null && classify.contains(IndexCommons.CAR_CAMPING_KOR)|| 
 				name != null && name.contains(IndexCommons.AUTO_CAMPING_KOR)) {
 			classifycode = IndexCommons.AUTO_CAMPING;
@@ -229,6 +230,14 @@ public class CampingApiVO {
 		this.updatedate = updatedate;
 	}
 
+	public int getIdx_id() {
+		return idx_id;
+	}
+
+	public void setIdx_id(int idx_id) {
+		this.idx_id = idx_id;
+	}
+
 	@Override
 	public String toString() {
 		return "CampingApiVO [_id=" + _id + ", name=" + name + ", addrNumber=" + addrNumber + ", addrRoad=" + addrRoad
@@ -236,7 +245,8 @@ public class CampingApiVO {
 				+ safetyfacilities + ", operatingTime=" + operatingTime + ", management=" + management + ", telM="
 				+ telM + ", telC=" + telC + ", architectureArea=" + architectureArea + ", siteArea=" + siteArea
 				+ ", siteCnt=" + siteCnt + ", parkingCnt=" + parkingCnt + ", longitude=" + longitude + ", latitude="
-				+ latitude + ", maxpersonCnt=" + maxpersonCnt + ", etc=" + etc + ", updatedate=" + updatedate + "]";
+				+ latitude + ", maxpersonCnt=" + maxpersonCnt + ", etc=" + etc + ", updatedate=" + updatedate
+				+ ", idx_id=" + idx_id + "]";
 	}
 
 }

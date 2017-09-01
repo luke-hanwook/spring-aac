@@ -57,7 +57,8 @@ public class ApiManager {
 			String apiQuery = runAPI(idx);
 			apiQuery = parser.parsePropertyKorToEng(apiQuery);
 			String[] jsonArr = ApiParser.campingApiParser(apiQuery);
-			apiMap = mergeMap(apiMap, ApiParser.getJsonList(jsonArr));
+//			apiMap = mergeMap(apiMap, ApiParser.getJsonList(jsonArr));
+			apiMap.putAll(ApiParser.getJsonList(jsonArr));
 			idx+=IDX_JUMP;
 			if(jsonArr.length < 1000) {
 				break;
@@ -70,7 +71,6 @@ public class ApiManager {
 			Map<String, List<Object>> map, Map<String, List<Object>> newMap) throws Exception {
 		for (String key : newMap.keySet()) {
 			List<Object> tempList = new ArrayList<>();
-			System.out.println("key="+key);
 			if(map.containsKey(key)) {
 				tempList = map.get(key);
 			}
