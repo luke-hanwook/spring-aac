@@ -25,6 +25,8 @@ public class CampingApiVO {
 	private String etc;
 	private String updatedate;
 	private int idx_id;
+	private String cityname;
+	private String classifyname;
 
 	/**
 	 * index 생성 위한 city 코드 반환
@@ -237,6 +239,22 @@ public class CampingApiVO {
 	public void setIdx_id(int idx_id) {
 		this.idx_id = idx_id;
 	}
+	
+	public String getCityname() {
+		return cityname;
+	}
+
+	public void setCityname(String cityname) {
+		this.cityname = cityname;
+	}
+
+	public String getClassifyname() {
+		return classifyname;
+	}
+
+	public void setClassifyname(String classifyname) {
+		this.classifyname = classifyname;
+	}
 
 	@Override
 	public String toString() {
@@ -246,7 +264,7 @@ public class CampingApiVO {
 				+ telM + ", telC=" + telC + ", architectureArea=" + architectureArea + ", siteArea=" + siteArea
 				+ ", siteCnt=" + siteCnt + ", parkingCnt=" + parkingCnt + ", longitude=" + longitude + ", latitude="
 				+ latitude + ", maxpersonCnt=" + maxpersonCnt + ", etc=" + etc + ", updatedate=" + updatedate
-				+ ", idx_id=" + idx_id + "]";
+				+ ", idx_id=" + idx_id + ", cityname=" + cityname + ", classifyname=" + classifyname + "]";
 	}
 
 }

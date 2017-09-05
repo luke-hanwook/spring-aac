@@ -46,7 +46,7 @@ public class IndexCommons {
 	public static final String AUTO_CAMPING_KOR = "오토캠핑";
 	public static final String GLAMPING_KOR = "글램핑";
 	public static final String CARAVAN_KOR = "카라반";
-	public static final String GENERAL_CAMPING_KOR = "일반야영장";
+	public static final String GENERAL_CAMPING_KOR = "일반";
 	public static final String[] CLASSIFY_ARR_KOR = {AUTO_CAMPING_KOR, GENERAL_CAMPING_KOR, GLAMPING_KOR, CARAVAN_KOR};
 	
 	

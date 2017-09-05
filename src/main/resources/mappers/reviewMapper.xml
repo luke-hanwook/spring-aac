@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dasol.mapper.ReviewdMapper">
+	
+	<select id="getCityName" resultType="Map">
+		select citycode, cityname from idx_table where citycode > 0 group by citycode;
+	</select>
+	
+	<select id="getClassifyName" resultType="Map">
+		select classifycode, classifyname from idx_table where classifycode > 0 group by classifycode;
+	</select>
+	
+	<select id="search" resultType="CampingApiVO">
+		SELECT A.CITYNAME, A.CLASSIFYNAME, B.*
+		FROM 
+			(SELECT * 
+			FROM IDX_TABLE 
+			WHERE 1=1 
+			<include refid="searchCondition"></include>  
+			ORDER BY IDX_ID) A
+		JOIN 
+			(SELECT * 
+			FROM CAMPING_API
+			<if test="sort != null">
+			<if test="sort != ''">
+				ORDER #{sort}
+				</if>
+			</if> 
+			) B
+		ON A.IDX_ID = B.IDX_ID
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="searchCount" resultType="int">
+		SELECT COUNT(B._ID) 
+		FROM 
+			(SELECT * 
+			FROM IDX_TABLE 
+			WHERE 1=1 
+			<include refid="searchCondition"></include>  
+			ORDER BY IDX_ID) A
+		JOIN 
+			(SELECT * 
+			FROM CAMPING_API) B
+		ON A.IDX_ID = B.IDX_ID
+	</select>
+
+	<sql id="searchCondition">
+		<if test="city != null and city != ''">
+			AND CITYCODE = #{city}
+		</if>
+		<if test="category != null and category != ''">
+			AND CLASSIFYCODE = #{category}
+		</if>
+	</sql>
+</mapper>

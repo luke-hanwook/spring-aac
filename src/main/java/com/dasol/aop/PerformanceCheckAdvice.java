@@ -13,7 +13,8 @@ public class PerformanceCheckAdvice {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PerformanceCheckAdvice.class);
 	
-	@Around("execution(* com.dasol.service.CampingApiService.insertAPI(..))")
+	@Around("execution(* com.dasol.service.CampingApiService.insertAPI(..))"
+			+ " or execution(* com.dasol.service.BoardService*.*(..))")
 	public Object timeLog(ProceedingJoinPoint pjp) throws Throwable {
 		logger.info("==================================");
 		long startTime = System.currentTimeMillis();
