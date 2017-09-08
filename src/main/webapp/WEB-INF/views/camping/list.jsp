@@ -35,7 +35,6 @@
 					</div>
 				</aside>
 				<article>
-					
 					<div class="sortyselectfilter">
 						<select class="form-control" id="sortyselect">
 							<option>추천순</option>
@@ -43,14 +42,14 @@
 					</div>
 					<span id="totCnt">총 <strong style="color: #337ab7;">${pageData.totCount}</strong>개의 검색결과</span>
 					<c:forEach items="${list}" var="vo">
-						<div class="panel panel-default">
-							<div class="panel-heading">
+						<div class="panel panel-default" id="${vo._id}">
+							<div class="panel-heading" style="background-color: white;">
 								<div class="image-circle">
 									<img src="http://cfile4.uf.tistory.com/image/037D0541514BF2B90B8EC8" class="img-circle" height="65" width="65" alt="Avatar">
 								</div>
 								<div class="title-content">
 									<div class="title">
-										<h4><span><a href="#" data-toggle="modal" data-target="#myModal">${vo.name}</a></span></h4>
+										<h4><span><a href="/camping/list/${vo.name}">${vo.name}</a></span></h4>
 									</div>
 									<div class="scrap">
 										<button type="button" class="btn btn-info btn-xs"><i class="fa fa-plus"></i> 스크랩</button>
@@ -60,7 +59,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="panel-body">reviewreviewreview</div>
+<!-- 							<div class="panel-body">reviewreviewreviewreviewreviewreview</div> -->
 						</div>
 					</c:forEach>
 				</article>
@@ -70,10 +69,20 @@
 		<div class="box-footer">
 			<div class="text-center">
 				<ul class="pagination pagination-lg">
+					<c:if test="${pageData.startPage != 1}">
+						<li <c:out value="${pageData.cri.page == i? 'class=active' : '' }" />>
+						<a href="1">1</a></li>
+						<li class="disabled"><a href="#">...</a></li>
+					</c:if>
 					<c:forEach var="i" begin="${pageData.startPage }" end="${pageData.endPage }">
-					<li <c:out value="${pageData.cri.page == i? 'class=active' : '' }" />>
-					<a href="${i}">${i}</a></li>
+						<li <c:out value="${pageData.cri.page == i? 'class=active' : '' }" />>
+						<a href="${i}">${i}</a></li>
 					</c:forEach>
+					<c:if test="${pageData.endPage != pageData.totPages}">
+						<li class="disabled"><a href="#">...</a></li>
+						<li <c:out value="${pageData.cri.page == i? 'class=active' : '' }" />>
+						<a href="${pageData.totPages}">${pageData.totPages}</a></li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -87,7 +96,6 @@
 	 			+ '?page='+page+'&perPageNum=${pageData.cri.perPageNum}' 
 	 			+ getQuery();
 		});
-		
 		
 		$('select').on('change', function() {
 			var val = $(this).val();

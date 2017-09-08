@@ -8,7 +8,7 @@
 		insert into camping_api values
 		<foreach item="campingApiVO" index="index" collection="list" open="" separator="," close="">
 		(#{campingApiVO._id}
-		, #{campingApiVO.name}
+		, replace(#{campingApiVO.name}, ' ','')
 		, #{campingApiVO.addrNumber}
 		, #{campingApiVO.addrRoad}
 		, #{campingApiVO.price}

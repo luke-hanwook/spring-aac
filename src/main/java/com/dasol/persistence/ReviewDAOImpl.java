@@ -51,5 +51,11 @@ public class ReviewDAOImpl implements ReviewDAO {
 		return session.selectList(namespace+".getClassifyName");
 	}
 	
+	@Cacheable(value="getCampingInfo", key="#name")
+	@Override
+	public CampingApiVO getCampingInfo(String name) throws Exception {
+		return session.selectOne(namespace+".getCampingInfo", name);
+	}
+	
 	
 }

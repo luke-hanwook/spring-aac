@@ -5,30 +5,42 @@
 
 <mapper namespace="com.dasol.mapper.ReviewdMapper">
 	
+	<select id="getCampingInfo" resultType="CampingApiVO">
+		SELECT B.CITYNAME, B.CLASSIFYNAME, A.*
+		FROM
+			(SELECT * 
+			FROM CAMPING_API
+			WHERE name = #{name}
+			) A
+		JOIN 
+			(SELECT IDX_ID, CITYNAME, CLASSIFYNAME 
+			FROM IDX_TABLE 
+			ORDER BY IDX_ID) B
+		ON A.IDX_ID = B.IDX_ID
+	</select>
+	
 	<select id="getCityName" resultType="Map">
-		select citycode, cityname from idx_table where citycode > 0 group by citycode;
+		SELECT citycode, cityname FROM IDX_TABLE WHERE CITYCODE > 0 GROUP BY CITYCODE;
 	</select>
 	
 	<select id="getClassifyName" resultType="Map">
-		select classifycode, classifyname from idx_table where classifycode > 0 group by classifycode;
+		SELECT classifycode, classifyname FROM IDX_TABLE WHERE CLASSIFYCODE > 0 GROUP BY CLASSIFYCODE;
 	</select>
 	
 	<select id="search" resultType="CampingApiVO">
 		SELECT A.CITYNAME, A.CLASSIFYNAME, B.*
 		FROM 
-			(SELECT * 
+			(SELECT IDX_ID, CITYNAME, CLASSIFYNAME 
 			FROM IDX_TABLE 
 			WHERE 1=1 
 			<include refid="searchCondition"></include>  
 			ORDER BY IDX_ID) A
 		JOIN 
-			(SELECT * 
+			(SELECT _ID, NAME, IDX_ID 
 			FROM CAMPING_API
-			<if test="sort != null">
-			<if test="sort != ''">
+			<if test="sort != null and sort != ''">
 				ORDER #{sort}
-				</if>
-			</if> 
+			</if>
 			) B
 		ON A.IDX_ID = B.IDX_ID
 		LIMIT #{pageStart}, #{perPageNum}
@@ -37,13 +49,13 @@
 	<select id="searchCount" resultType="int">
 		SELECT COUNT(B._ID) 
 		FROM 
-			(SELECT * 
+			(SELECT IDX_ID
 			FROM IDX_TABLE 
 			WHERE 1=1 
 			<include refid="searchCondition"></include>  
 			ORDER BY IDX_ID) A
 		JOIN 
-			(SELECT * 
+			(SELECT _ID, IDX_ID
 			FROM CAMPING_API) B
 		ON A.IDX_ID = B.IDX_ID
 	</select>

@@ -13,4 +13,5 @@ public interface ReviewService {
 	public int getSearchTotCount(SearchCriteria scri) throws Exception;
 	public List<String> getSelectCity() throws Exception;
 	public List<String> getSelectClassify() throws Exception;
+	public CampingApiVO getCampingInfo(String name) throws Exception;
 }

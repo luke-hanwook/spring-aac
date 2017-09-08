@@ -1,8 +1,15 @@
 package com.dasol.domain;
 
+import java.io.Serializable;
+
 import com.dasol.util.IndexCommons;
 
-public class CampingApiVO {
+public class CampingApiVO implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2138284231763921668L;
 	private String _id;
 	private String name;
 	private String addrNumber;

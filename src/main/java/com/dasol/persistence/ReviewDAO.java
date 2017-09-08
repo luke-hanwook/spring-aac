@@ -13,4 +13,5 @@ public interface ReviewDAO {
 	public int getSearchTotCount(SearchCriteria scri) throws Exception;
 	public List<String> getCityName() throws Exception;
 	public List<String> getClassifyName() throws Exception;
+	public CampingApiVO getCampingInfo(String name) throws Exception;
 }

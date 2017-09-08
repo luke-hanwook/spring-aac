@@ -45,5 +45,10 @@ public class ReviewServiceImpl implements ReviewService{
 	public List<String> getSelectClassify() throws Exception {
 		return dao.getClassifyName();
 	}
+
+	@Override
+	public CampingApiVO getCampingInfo(String name) throws Exception {
+		return dao.getCampingInfo(name);
+	}
 	
 }
