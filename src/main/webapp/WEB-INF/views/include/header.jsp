@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!DOCTYPE html>
 <html>
@@ -18,10 +19,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+ 
 <style type="text/css">
 	header {
 		background-color: #337ab7;
+	}
+	
+	footer {
+		height: 100px;
 	}
 	
 	nav {
@@ -50,7 +55,7 @@
 		float: right;
 	}
 	
-	.filter select, nav ul li, #sortyselect{
+	.filter select, nav ul li, nav ul, #sortyselect{
 		display: inline-block;
 	}
 	
@@ -59,7 +64,7 @@
 		padding-right: 10px;
 	}
 	
-	.filter, .panel-group {
+	.filter, .panel-group, section {
 		width: 1000px;
 		margin: 0 auto;
 	}
@@ -74,10 +79,10 @@
 		border: 1px solid black;
 		float: right;
 		margin: 30px 10px;
-		height: 100px;
+		height: 400px;
 	}
 	
-	section {
+	body {
 		background-color: #F6F6F6;
 	}
 	
@@ -113,6 +118,65 @@
 		padding-bottom: 0px;
 	}
 	
+	.detail {
+		position: relative;
+		height: 300px;
+	}
+	
+	.detail img {
+    	width: 100%;
+	}
+	
+	.detail .title-content {
+		position: absolute;
+	    bottom: 20px;
+	    left: 16px;
+	    color: white;
+	}
+	
+	.box-body table {
+		height: 400px;
+		width: 600px;
+		table-layout: fixed;
+	}
+	
+	.box-body table th, .box-body table td{
+		padding-left: 10px;
+		display: table-cell;
+	}
+	
+	.copyright {
+		text-align: right;
+		padding-top: 30px;
+	}
+	
+	.nav-tabs li {
+		text-align: center;
+		width: 120px;
+	}
+	
+	.rightbox {
+		float: right;
+		display: inline-block;
+		height: 50px;
+		margin: 0 auto;
+		padding-right: 130px;
+		padding-top: 15px;
+	}
+	
+	.rightbox a {
+		margin-left: 25px;
+	}
+	
+	.help-block {
+		color: red;
+		font-size: 10px;
+	}
+	
+	#userprofile {
+		display: inline-block;
+		color: white;
+	}
 </style>
  
 </head>
@@ -124,5 +188,18 @@
 			<li><a href="/camping/list">리뷰</a></li>
 			<li><a href="#">추천</a></li>
 		</ul>
+		
+		<div class="rightbox">
+		<sec:authorize access="isAnonymous()">
+			<a href="/user/login">로그인</a>
+			<a href="/user/join">회원가입</a>
+		</sec:authorize>
+		<sec:authorize access="isAuthenticated()">
+			<sec:authentication var="user" property="details"/>
+			<p id="userprofile">${user.nick}님 안녕하세요</p>
+			<a href="#"><i class="fa fa-star"></i></a>
+			<a href="/user/logout">로그아웃</a>
+		</sec:authorize>
+		</div>
 	</nav>
 </header>

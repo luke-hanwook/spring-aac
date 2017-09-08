@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd ">
+
+	<http auto-config="true">
+		<intercept-url pattern="/api/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/**" access="permitAll" />
+		
+		<form-login 
+			login-page="/user/login" 
+			login-processing-url="/user/login"
+			default-target-url="/" 
+			username-parameter="email"
+			password-parameter="password" 
+			authentication-failure-url="/user/login?error"
+			always-use-default-target='true' />
+		
+		<logout
+			invalidate-session="true"
+			logout-success-url="/?logout"
+			logout-url="/user/logout"
+		/>
+		
+		<session-management>
+			<concurrency-control max-sessions="1" expired-url="/"/>
+		</session-management>
+	</http>
+	
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="customAuthenticationProvider" />
+		<authentication-provider user-service-ref="userService" />
+	</authentication-manager>
+	
+	<beans:bean id="userService" class="com.dasol.security.UserDetailsServiceImpl" /> 
+	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<beans:bean id="customAuthenticationProvider" class="com.dasol.security.CustomAuthenticationProvider" />
+
+</beans:beans>
