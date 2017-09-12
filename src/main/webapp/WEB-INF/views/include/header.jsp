@@ -19,6 +19,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
  
 <style type="text/css">
 	header {
@@ -177,6 +179,66 @@
 		display: inline-block;
 		color: white;
 	}
+	
+	.star-group span {
+		display: none;
+	}
+	
+	.timeline {
+		list-style: none;
+		margin:0px; 
+		padding:0px;
+	}
+	
+	.timeline-item {
+		width: 1000px;
+		margin-left: 15px;
+	}
+	
+	.star-group {
+		margin-top: 20px;
+	}
+	
+	#starrating {
+		font-size: 30px;
+	}
+	
+	#replyBtn {
+		float: right;
+	}
+	
+	.timeline-info {
+		height: 180px;
+		display: table-cell;
+		font-size: 20px;
+		line-height: 120%;
+		vertical-align: middle;
+		text-align: center;
+		width: 343px;
+	}
+	
+	.timeline-item {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	
+	.timeline-info span {
+		font-style: italic;
+		color: #337ab7;
+	}
+	
+	.timeline-option {
+		margin-top: 20px;
+		float: right;
+		z-index: 1;
+	}
+	
+	.timeline-item .form-control {
+		 -webkit-appearance: none;
+		  -webkit-box-shadow: none;
+		  -moz-box-shadow: none;
+		  box-shadow: none;
+	}
 </style>
  
 </head>
@@ -196,7 +258,8 @@
 		</sec:authorize>
 		<sec:authorize access="isAuthenticated()">
 			<sec:authentication var="user" property="details"/>
-			<p id="userprofile">${user.nick}님 안녕하세요</p>
+			<span id="userprofile">${user.nick}</span>
+			<span id="useremail" style="display: none;">${user.username}</span>
 			<a href="#"><i class="fa fa-star"></i></a>
 			<a href="/user/logout">로그아웃</a>
 		</sec:authorize>

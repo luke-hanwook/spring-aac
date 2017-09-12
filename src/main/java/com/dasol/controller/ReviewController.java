@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -68,6 +66,7 @@ public class ReviewController {
 		CampingApiVO vo = service.getCampingInfo(name);
 		long end = System.currentTimeMillis(); 
 		logger.info("Cache 수행시간 : "+ Long.toString(end-start));
+		
 		model.addAttribute("vo", vo);
 		return "/camping/info";
 	}
