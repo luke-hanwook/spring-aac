@@ -6,8 +6,10 @@
 		http://www.springframework.org/schema/security 
 		http://www.springframework.org/schema/security/spring-security.xsd ">
 
-	<http auto-config="true">
+	<http auto-config="true" entry-point-ref="authenticationEntryPoint">
+	
 		<intercept-url pattern="/api/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/review" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/**" access="permitAll" />
 		
 		<form-login 
@@ -38,5 +40,6 @@
 	<beans:bean id="userService" class="com.dasol.security.UserDetailsServiceImpl" /> 
 	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	<beans:bean id="customAuthenticationProvider" class="com.dasol.security.CustomAuthenticationProvider" />
+	<beans:bean id="authenticationEntryPoint" class="com.dasol.security.RestAuthenticationHandler"/>
 
 </beans:beans>

@@ -212,8 +212,6 @@
 			}
 
 			$('#starrating').html(curStar - 1);
-		} else {
-
 		}
 
 	});
