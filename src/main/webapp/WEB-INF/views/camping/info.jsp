@@ -5,17 +5,18 @@
 	src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=jyhufK2AO0m54ULWtj2x&submodules=geocoder"></script>
 	
 <section>
+
 	<div class="box-header">
 		<div class="detail">
 			<img alt="" src="http://skinnovation-if.com/wp-content/uploads/2016/08/%EC%BA%A0%ED%95%91%EC%9E%A5-%EC%86%8D-%EC%84%9D%EC%9C%A0_main.png" width="100%" height="100%">
-			<div class="title-content">
+			<div class="title-content" id="${vo._id}">
 				<div class="title">
 					<h2>
 						<span>${vo.name}</span>
 					</h2>
 				</div>
 				<div class="scrap">
-					<button type="button" class="btn btn-info btn-xs">
+					<button type="button" class="btn btn-info btn-xs scrapbtn">
 						<i class="fa fa-plus"></i> 스크랩
 					</button>
 				</div>
@@ -126,17 +127,9 @@
 </section>
 
 <script type="text/javascript">
-	var token = '${_csrf.token}';
-	var header = '${_csrf.headerName}';
 	var maxPage = 1;
 	var curTab = '';
 	var totrCnt = 0;
-	
-	$(function() {
-	    $(document).ajaxSend(function(e, xhr, options) {
-	        xhr.setRequestHeader(header, token);
-	    });
-	});
 	
 	var navli = $('.nav-tabs').children();
 	var cno = ${vo._id };
@@ -163,12 +156,8 @@
 	$(window).scroll(function(){
 		 var scrolltop = $(window).scrollTop();
 		 totrCnt = $('#totrCnt').html();
-		 
-		 console.log(curTab == 'review' && Math.round(scrolltop) == $(document).height() - $(window).height());
-
 		 // 스크롤 리스팅
 		 if(curTab == 'review' && Math.round(scrolltop) == $(document).height() - $(window).height()){
-			 console.log(maxPage < Math.ceil(totrCnt / 5)); 
 		   	if(maxPage < Math.ceil(totrCnt / 5)) {
 		    	getAppendPage('/review/' + cno + '/' + (++maxPage));
 		    }

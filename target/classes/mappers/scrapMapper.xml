@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dasol.mapper.ScrapMapper">
+	<select id="getScrapAll" resultType="ScrapVO">
+		select s.*, c.name, idx.cityname, idx.classifyname 
+		from scrap s join camping_api c 
+		on s.cno = c._id join idx_table idx 
+		on c.idx_id = idx.idx_id
+		where s.email = #{email}
+		order by sno desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getByCno" resultType="ScrapVO">
+		select * from scrap where email = #{email} and cno = #{cno}
+	</select>
+	
+	<insert id="insertScrap">
+		insert into scrap (email, cno) values (#{email}, #{cno})
+	</insert>
+	
+	<delete id="deleteScrap">
+		delete from scrap where sno = #{sno}
+	</delete>
+	
+	<select id="countScrap" resultType="int">
+		select count(sno) count from scrap where email = #{email}
+	</select>
+</mapper>

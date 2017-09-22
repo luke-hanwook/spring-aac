@@ -10,6 +10,7 @@
 	
 		<intercept-url pattern="/api/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/review" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/scrap/**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/**" access="permitAll" />
 		
 		<form-login 

@@ -19,8 +19,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+
+<script src="/resources/js/common.js"></script>
  
 <style type="text/css">
 	header {
@@ -99,9 +102,10 @@
 		text-decoration: none;
 	}
 	
-	article a:link, article a:visited {
+	article a:link, article a:visited, .scrap-box a:link, .scrap-box a:visited {
 		color: black;
 		text-decoration: none;
+		margin: 0;
 	}
 	
 	.image-circle, .title, .scrap, .title-content {
@@ -239,6 +243,12 @@
 		  -moz-box-shadow: none;
 		  box-shadow: none;
 	}
+	
+	.popover-content {
+    	width:260px;
+    	height:250px;
+     	overflow-y: hidden;
+	}
 </style>
  
 </head>
@@ -260,9 +270,39 @@
 			<sec:authentication var="user" property="details"/>
 			<span id="userprofile">${user.nick}</span>
 			<span id="useremail" style="display: none;">${user.username}</span>
-			<a href="#"><i class="fa fa-star"></i></a>
+			<a href="#" title="스크랩" data-toggle="popover" 
+				data-placement="bottom" data-trigger="click" id="scrap-star">
+				<i class="fa fa-star"></i></a>
 			<a href="/user/logout">로그아웃</a>
 		</sec:authorize>
 		</div>
 	</nav>
 </header>
+
+<div id="popover_content_wrapper" style="display: none"></div>
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		var token = '${_csrf.token}';
+		var header = '${_csrf.headerName}';
+		
+		$(function() {
+		    $(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader(header, token);
+		    });
+		});
+		
+	});
+
+</script>
+
+<script type="text/x-handlebars-template" id="scraptemplate">
+	{{#each .}}
+		<div class="scrap-box" data-sno={{sno}}><a href="/camping/list/{{name}}">
+		<strong>{{name}}</strong></a> <small>{{cityname}}/{{classifyname}} 
+		{{prettifyDate regdate}}</small>
+		<a href="#"><i class="material-icons scrapdelete" style="font-size:16px">close</i></a></div>
+		<hr>
+	{{/each}}
+</script>

@@ -42,17 +42,17 @@
 					</div>
 					<span id="totCnt">총 <strong style="color: #337ab7;">${pageData.totCount}</strong>개의 검색결과</span>
 					<c:forEach items="${list}" var="vo">
-						<div class="panel panel-default" id="${vo._id}">
+						<div class="panel panel-default">
 							<div class="panel-heading" style="background-color: white;">
 								<div class="image-circle">
-									<img src="http://cfile4.uf.tistory.com/image/037D0541514BF2B90B8EC8" class="img-circle" height="65" width="65" alt="Avatar">
+									<img src="/resources/img/default.png" class="img-circle" height="65" width="65" alt="Avatar">
 								</div>
-								<div class="title-content">
+								<div class="title-content" id="${vo._id}">
 									<div class="title">
 										<h4><span><a href="/camping/list/${vo.name}">${vo.name}</a></span></h4>
 									</div>
 									<div class="scrap">
-										<button type="button" class="btn btn-info btn-xs"><i class="fa fa-plus"></i> 스크랩</button>
+										<button type="button" class="btn btn-info btn-xs scrapbtn"><i class="fa fa-plus"></i> 스크랩</button>
 									</div>
 									<div class="title-footer">
 										<span>${vo.cityname}/${vo.classifyname}</span>

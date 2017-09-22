@@ -156,6 +156,7 @@
 	        <artifactId>hibernate-validator</artifactId>  
 	        <version>4.2.0.Final</version>
 	    </dependency>
+	    
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
