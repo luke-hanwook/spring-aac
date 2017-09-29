@@ -28,7 +28,7 @@
 			</div>
 
 			<button type="submit" id="btn_submit" class="btn btn-primary btn-block">로그인</button>
-			<a href="#" class="btn btn-primary btn-block" role="button">회원가입</a>
+			<a href="/user/join" class="btn btn-primary btn-block" role="button">회원가입</a>
 		</form>
 	</div>
 </section>

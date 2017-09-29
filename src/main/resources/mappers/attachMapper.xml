@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dasol.mapper.AttachMapper">
+	<select id="getAttach" resultType="AttachVO">
+		select * from attach where cno = #{cno} order by ano desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<insert id="insertAttach">
+		insert into attach (email, cno, fullpath) 
+		values(#{email}, #{cno}, #{fullpath})
+	</insert>
+	
+	<delete id="deleteAttach">
+		delete from attach where ano = #{ano}
+	</delete>
+	
+	<select id="countAttach" resultType="int">
+		select count(ano) count from attach where cno = #{cno}
+	</select>
+</mapper>

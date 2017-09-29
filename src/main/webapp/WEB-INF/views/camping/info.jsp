@@ -5,10 +5,9 @@
 	src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=jyhufK2AO0m54ULWtj2x&submodules=geocoder"></script>
 	
 <section>
-
 	<div class="box-header">
 		<div class="detail">
-			<img alt="" src="http://skinnovation-if.com/wp-content/uploads/2016/08/%EC%BA%A0%ED%95%91%EC%9E%A5-%EC%86%8D-%EC%84%9D%EC%9C%A0_main.png" width="100%" height="100%">
+			<img alt="" src="" width="100%" height="100%">
 			<div class="title-content" id="${vo._id}">
 				<div class="title">
 					<h2>
@@ -30,9 +29,28 @@
 	<ul class="nav nav-tabs">
 		<li class="info active"><a href="#box-body">Info<br>캠핑장정보</a></li>
 		<li class="review"><a href="#menu1" id="navreview"><span id="totrCnt"></span><br>리뷰</a></li>
-		<li class="review"><a href="#menu2" id="navimage">2<br>이미지</a></li>
+		<li class="image"><a href="#menu2" id="navimage"><span id="totiCnt"></span><br>이미지</a></li>
 	</ul>
 
+	<div class="image box-body" style="background-color: white; display: none;">
+		<div class="row">
+			<div class="col-sm-12 text-center">
+				<div class="image-info">
+					<a class="btn btn-primary btn" id="imageBtn">새로올리기</a>
+					<input type="file" id="file" name="profile_image" style="display:none;">
+				</div>
+			</div>
+		</div>
+		
+		<div class="row imageArea">
+			<div class="col-sm-12">
+				<ul class="uploadedList">
+					<li id="imageDiv"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
 	<div class="review box-body" style="background-color: white; display: none;">
 		<div class="row">
 			<div class="col-sm-4 text-center">
@@ -50,7 +68,6 @@
 						<i class="fa fa-star" style="font-size: 24px; color: orange;"><span>4</span></i>
 						<i class="fa fa-star" style="font-size: 24px; color: orange;"><span>5</span></i>
 				</div>
-			
 			<div class="form-group">
 				<input class="form-control" type="text" name="content" id="replycontent" placeholder="리뷰를 적어주세요.">
 			</div>
@@ -125,8 +142,268 @@
 	</script>
 
 </section>
+<script type="text/javascript">
+//이미지
+	var cno = ${vo._id };
+	var maxImagePage = 1;
+	
+	$('#imageBtn').click(function() {
+		if($('#useremail').html() == null) {
+			alert('로그인 후 가능합니다.');
+			self.location = '/user/login';
+			return;
+		}
+		MyFunction();
+		return false;
+	});
+	
+	$('#navimage').on('click', function() {
+		getImagePage('/uploadAjax/' + cno + '/1');
+	});
+	
+	$.getJSON('/uploadAjax/' + cno + '/1', function(data) {
+		totiCnt = data.acnt;
+		$('#totiCnt').html(totiCnt);
+	});
+	
+	function getImagePage(pageInfo) {
+		$.getJSON(pageInfo, function(data) {
+			$('#totiCnt').html(data.acnt);
+			printImageData(data.list, $('#imageDiv'), $('#templateImage'));
+		});
+	}
+	
+	var printImageData = function(ImageArr, target, templateObject) {
+		var template = Handlebars.compile(templateObject.html());
+		var html = template(getFileInfo(ImageArr));
+		$('.imageLi').remove();
+		target.after(html);
+	};
+	
+	function MyFunction() {
+		$('#file').click();
+	}
+	
+	function getAppendImagePage(pageInfo) {
+		$.getJSON(pageInfo, function(data) {
+			appendImageData(data.list, $('.uploadedList'), $('#templateImage'));
+		});
+	}
+	
+	var appendImageData = function(ImageArr, target, templateObject) {
+		var template = Handlebars.compile(templateObject.html());
+		var html = template(getFileInfo(ImageArr));
+		target.append(html);
+	};
+	
+	//이미지 insert
+	$('#file').on('change', function (event) {
+		
+		var file = $(this)[0].files[0];
+	
+		var formData = new FormData();
+		formData.append('file', file);
+		
+		$.ajax({
+			url : '/uploadAjax/'+cno,
+			data : formData,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(result) {
+				if(result == 'success') {
+					alert('등록 되었습니다.');
+					maxImagePage = 1;
+					getImagePage('/uploadAjax/' + cno + '/1');
+				}
+			}
+		});
+		
+	});
+	
+	$('.imageArea').on('dragenter dragover', function() {
+		event.preventDefault();
+	});
+	
+	$('.imageArea').on('drop', function(event) {
+		event.preventDefault();
+		
+		if($('#useremail').html() == null) {
+			alert('로그인 후 가능합니다.');
+			self.location = '/user/login';
+			return;
+		}
+		
+		var files = event.originalEvent.dataTransfer.files;
+		
+		var file = files[0];
+		
+		var formData = new FormData();
+		formData.append('file', file);
+		
+		$.ajax({
+			url : '/uploadAjax/'+cno,
+			data : formData,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(result) {
+				if(result == 'success') {
+					alert('등록 되었습니다.');
+					maxImagePage = 1;
+					getImagePage('/uploadAjax/' + cno + '/1');
+				}
+			}
+		});
+	});
+	
+	$(document).on('mouseenter', '.imgDiv', function() {
+		$(this).find('.imgeff').css('visibility', 'visible');
+	}).on('mouseleave', '.imgDiv', function() {
+		$(this).find('.imgeff').css('visibility', 'hidden');
+	});
+	
+	$(document).on('click', '.imgDel .btn', function(event) {
+		event.preventDefault();
+		
+		var that = $(this).parents('li');
+		var ano = that.attr('data-ano');
+
+		$.ajax({
+			url : '/deleteFile/' + ano,
+			type : 'post',
+			data : {
+				fileName : that.attr('data-src')
+			},
+			dataType : 'text',
+			success : function(result) {
+				if(result == 'success') {
+					alert('삭제 되었습니다.');
+					maxImagePage = 1;
+					getImagePage('/uploadAjax/' + cno + '/1');
+				}
+			}
+			
+		});
+	});
+	
+	$(document).on('click', '.oribtn .btn', function(event) {
+		event.preventDefault();
+		
+		var maskHeight = $(document).height();  
+		var maskWidth = $(window).width();  
+
+		//마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다.
+		$('.popback').css({'width':maskWidth,'height':maskHeight}); 
+		
+		$('body').on('scroll mousewheel', function(e) {
+		    e.preventDefault();
+		    e.stopPropagation();
+		    return false;
+		});
+		
+		var that = $(this).parents('li');
+		var fileLink = $(this).attr("href");
+		
+		var fileName = that.attr('data-name');
+		var email = that.attr('data-email');
+		var regdate = that.attr('data-regdate');
+		var ano = that.attr('data-ano');
+		
+		var nameTag = $('#popup_name');
+		nameTag.text(fileName);
+		var imgTag = $('#popup_img');
+		imgTag.attr('src', fileLink);
+		
+		var emailTag = $('#popup_email');
+		emailTag.text(email);
+		
+		var dateTag = $('#popup_regdate');
+		dateTag.text(regdate);
+		
+		$('.popup').show();
+		imgTag.addClass('show');
+		
+	});
+	
+	$('#popup_close').on('click', function() {
+		event.preventDefault();
+		$('body').off('scroll mousewheel');
+		
+		var imgTag = $('#popup_img');
+		imgTag.attr('src', '');
+		$('.popup').hide();
+	});
+	
+	function checkImageType(fileName) {
+		var pattern = /jpg|gif|png|jpeg/i;
+		return fileName.match(pattern);
+	}
+	
+	function getFileInfo(ImageArr) {
+		
+		var retObj = [];
+		
+		$(ImageArr).each(function(i, item) {
+			var regdate = item.regdate;
+			var email = item.email;
+			var ano = item.ano;
+			var fullName = item.fullpath;
+			var fileName, imgsrc, getLink;
+			var oriFilePath;
+			
+			if(checkImageType(fullName)) {
+				imgsrc = '/displayFile?fileName='+fullName;
+				
+				var front = fullName.substr(0,14);
+				var end = fullName.substr(16);
+				oriFilePath = front+end;
+				
+				getLink = '/displayFile?fileName='+oriFilePath;
+			}
+			
+			fileName = oriFilePath.substr(oriFilePath.indexOf('_')+1);
+			
+			retObj[i] = {fileName:fileName, imgsrc:imgsrc, getLink:getLink, 
+					fullName:fullName, email:email, ano : ano, regdate : regdate};
+		});
+		
+		return retObj;
+	}
+	
+</script>
+
+<script type="text/x-handlebars-template" id="templateImage">
+{{#each .}}
+	<li class="imageLi" data-src="{{fullName}}" data-ano="{{ano}}" 
+			data-name="{{fileName}}" data-email="{{email}}" data-regdate="{{regdate}}">
+		<div class="col-sm-4 text-center imgDiv">
+			<div class="imgeff back">
+			{{#eqEmail email}}
+				<div class="imgeff imgDel">
+					<a type="button" class="btn btn-danger btn-sm">
+						<span class="glyphicon glyphicon-remove"></span> 삭제 하기
+					</a>
+				</div>
+			{{/eqEmail}}
+				<div class="imgeff oribtn">
+					<a type="button" class="btn btn-default btn-sm" href="{{getLink}}">
+          				<span class="glyphicon glyphicon-eye-open"></span> 원본 보기
+        			</a>
+				</div>
+			</div>
+			<div class="upimgDiv">
+				<img class="upImage" src="{{imgsrc}}" alt="Attachment">
+			</div>
+		</div>
+	</li>
+{{/each}}
+</script>
 
 <script type="text/javascript">
+//리뷰
 	var maxPage = 1;
 	var curTab = '';
 	var totrCnt = 0;
@@ -139,6 +416,7 @@
 		$('.box-body').css('display', 'none');
 		curTab = $(this).attr('class');
 		maxPage = 1;
+		maxImagePage = 1;
 		$('.'+$(this).attr('class')).css('display', '');
 		$(this).addClass('active');
 	});
@@ -156,11 +434,16 @@
 	$(window).scroll(function(){
 		 var scrolltop = $(window).scrollTop();
 		 totrCnt = $('#totrCnt').html();
+		 totiCnt = $('#totiCnt').html();
 		 // 스크롤 리스팅
 		 if(curTab == 'review' && Math.round(scrolltop) == $(document).height() - $(window).height()){
 		   	if(maxPage < Math.ceil(totrCnt / 5)) {
 		    	getAppendPage('/review/' + cno + '/' + (++maxPage));
 		    }
+		 } else if (curTab == 'image' && $(document).height() <= Math.round(scrolltop) + $(window).height()){
+			 if(maxImagePage < Math.ceil(totiCnt / 9)) {
+				 getAppendImagePage('/uploadAjax/' + cno + '/' + (++maxImagePage));
+			 }
 		 }
 	});
 
@@ -326,25 +609,21 @@
 	});
 
 	//글수정 선택
-	$(document).on(
-			'click',
-			'.fa-cog',
-			function() {
-				event.preventDefault();
-				var star_group = $('.star-group').clone();
+	$(document).on('click', '.fa-cog', function() {
+		event.preventDefault();
+		var star_group = $('.star-group').clone();
 
-				var rno = $(this).parents('.replyLi').attr('data-rno');
-				var inputcontent = $(this).parents('.replyLi').find('input');
-				$(inputcontent).removeAttr('readonly');
-				inputcontent.css('border', '');
-				var btn = $(this).parents('.replyLi').find('.btn');
-				btn.css('display', '');
+		var rno = $(this).parents('.replyLi').attr('data-rno');
+		var inputcontent = $(this).parents('.replyLi').find('input');
+		$(inputcontent).removeAttr('readonly');
+		inputcontent.css('border', '');
+		var btn = $(this).parents('.replyLi').find('.btn');
+		btn.css('display', '');
 
-				console.log($(this).parents('.replyLi').find('h3').text());
-				console.log($(star_group).find('#starrating').html(
-						$(this).parents('.replyLi').find('h3').text()));
+		console.log($(this).parents('.replyLi').find('h3').text());
+		console.log($(star_group).find('#starrating').html($(this).parents('.replyLi').find('h3').text()));
 
-			});
+	});
 
 	//글수정저장
 	$(document).on('click', '#saveBtn', function() {
